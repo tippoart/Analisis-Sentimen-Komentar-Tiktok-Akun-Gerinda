@@ -1,4 +1,4 @@
-# Analisis Sentimen Komentar TikTok Gerindra terhadap Kinerja Pemerintah Presiden Prabowo Dalam Mengatasi Tambang di Raja Apat
+# Analisis Sentimen Komentar TikTok Gerindra terhadap Kinerja Pemerintah Presiden Prabowo Dalam Mengatasi Tambang di Raja Ampat
 
 ---
 
