@@ -136,11 +136,12 @@ with tab1:
         total_klasifikasi = st.session_state['total_terklasifikasi']
         total_baik = (df['label_binary'] == 1).sum()
         total_buruk = (df['label_binary'] == 0).sum()
-
+        
+        st.dataframe(df[['komentar', 'komentar_clean', 'label']], use_container_width=True)
         st.metric("Total Komentar Awal", total_all)
         st.metric("Komentar Relevan (Raja Ampat)", total_relevan)
 
-        st.dataframe(df[['komentar', 'komentar_clean', 'label']], use_container_width=True)
+   
 
         col1, col2, col3 = st.columns(3)
         with col1:
