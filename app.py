@@ -128,7 +128,7 @@ tab1, tab2, tab3, tab4 = st.tabs(["\U0001F4C4 Dataset", "\U0001F4CA Evaluasi", "
 
 # Tab 1
 with tab1:
-    st.subheader("\U0001F4C4 Ringkasan Dataset Komentar")
+   
     if 'df' in st.session_state:
         df = st.session_state['df']
         total_all = st.session_state['total_dataset']
@@ -138,6 +138,7 @@ with tab1:
         total_buruk = (df['label_binary'] == 0).sum()
         
         st.dataframe(df[['komentar', 'komentar_clean', 'label']], use_container_width=True)
+        st.subheader("\U0001F4C4 Ringkasan Dataset Komentar")
         st.metric("Total Komentar Awal", total_all)
         st.metric("Komentar Relevan (Raja Ampat)", total_relevan)
 
