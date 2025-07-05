@@ -1,8 +1,5 @@
 # Analisis Sentimen Komentar TikTok Gerindra terhadap Kinerja Pemerintah Presiden Prabowo Dalam Mengatasi Tambang di Raja Apat
 
-📌 **Judul:**  
-Implementasi Algoritma Random Forest dan Decision Tree dalam Sentimen Komentar TikTok Gerindra terhadap Kinerja Pemerintahan Presiden Prabowo dalam Mengatasi Masalah Tambang di Raja Ampat
-
 ---
 
 ## 📋 Deskripsi Singkat
