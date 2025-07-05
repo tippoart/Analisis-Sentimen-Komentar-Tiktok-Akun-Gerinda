@@ -51,8 +51,21 @@ def clean_text(text):
     text = re.sub(r'\s+', ' ', text).strip()
     return text
 
-positif_phrases = ['bagus', 'baik', 'hebat', 'mantap', 'sukses', 'puas', 'terbaik', 'luar biasa', 'dukung presiden']
-negatif_phrases = ['buruk', 'jelek', 'gagal', 'bohong', 'parah', 'salah pilih', 'kacau', 'kecewa', 'tidak puas']
+positif_phrases = [
+    'bagus', 'baik', 'hebat', 'mantap', 'top', 'sukses', 'kerja bagus',
+    'puas', 'terbaik', 'bagus banget', 'luar biasa', 'dukung presiden',
+    'jangan salahkan presiden', 'gapernah nyesel', 'tetap semangat',
+    'aku percaya bapak', 'terima kasih pak', 'kami mendukungmu',
+    'presiden terbaik', 'keren banget', 'lanjutkan pak', 'aku bangga',
+    'mana nih', 'makasih', 'ga salah pilih', 'mana yg bilang','di jaga ketikannya'
+]
+negatif_phrases = [
+    'buruk', 'jelek', 'gagal', 'bohong', 'parah', 'salah pilih',
+    'salah presiden', 'kacau', 'tidak puas', 'mengecewakan',
+    'salah besar', 'salah milih', 'hancur', 'nggak becus',
+    'day 1 salah', 'prabowo manis di awal', 'bener2 nyesel', 'kecewa',
+    'presiden gagal', 'bukan presiden gue', 'pilihan salah', 'ganti presiden'
+]
 
 def label_sentimen(text):
     for phrase in positif_phrases:
