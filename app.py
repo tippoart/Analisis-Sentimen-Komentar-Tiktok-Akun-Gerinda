@@ -139,11 +139,8 @@ with tab1:
         
         st.dataframe(df[['komentar', 'komentar_clean', 'label']], use_container_width=True)
         st.subheader("\U0001F4C4 Ringkasan Dataset Komentar")
-       with st.container():
-        st.markdown("<div style='text-align:center;'>", unsafe_allow_html=True)
         st.metric("Total Komentar Awal", total_all)
         st.metric("Komentar Relevan (Raja Ampat)", total_relevan)
-        st.markdown("</div>", unsafe_allow_html=True)
 
 
    
