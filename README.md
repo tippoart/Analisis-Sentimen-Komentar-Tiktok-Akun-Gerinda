@@ -28,14 +28,3 @@ Proyek ini bertujuan untuk menganalisis komentar-komentar masyarakat di TikTok y
 - Plotly
 - WordCloud
 
----
-
-## 📂 Struktur Direktori
-
-```plaintext
-├── image/
-│   └── Save-Raja-Ampat.jpg     # Gambar latar aplikasi
-├── dataset/
-│   └── komentar_tiktok.csv     # Dataset komentar TikTok
-├── app.py                      # File utama aplikasi Streamlit
-├── README.md                   # Dokumentasi proyek
