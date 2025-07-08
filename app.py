@@ -65,6 +65,12 @@ positif_phrases = [
     'dukung pelestarian', 'presiden peduli lingkungan', 'stop tambang ilegal',
     'hentikan perusakan', 'cegah kerusakan', 'selamatkan hutan',
     'peduli lingkungan', 'jaga raja ampat', 'selamatkan tambrauw'
+
+    'jaga lingkungan', 'selamatkan raja ampat', 'lestarikan alam', 'tolong jaga hutan',
+    'selamatkan ekosistem', 'dukung lingkungan', 'dukung pelestarian', 'presiden peduli lingkungan',
+    'stop tambang ilegal', 'hentikan perusakan', 'cegah kerusakan', 'selamatkan hutan',
+    'peduli lingkungan', 'jaga raja ampat', 'selamatkan tambrauw'
+
 ]
 
 negatif_phrases = [
@@ -77,13 +83,14 @@ negatif_phrases = [
     'jangan lanjutkan', 'hancurkan', 'kerusakan', 'dikhianati',
     'rusak alam', 'janji palsu', 'sama aja bohong',
 
-    # Tambahan dari isu Raja Ampat dan tambang
     'merusak raja ampat', 'rusak raja ampat', 'kerusakan lingkungan',
     'penghancur alam', 'pengkhianat lingkungan', 'tambang ilegal',
     'kerusakan tambah parah', 'rusak hutan', 'penambangan liar',
     'lingkungan rusak', 'tidak peduli raja ampat', 'ekosistem rusak',
     'prabowo rusak alam', 'izin tambang sembarangan', 'jual raja ampat',
     'penambangan brutal', 'hancurkan raja ampat', 'prabowo perusak alam'
+
+    
 ]
 
 
