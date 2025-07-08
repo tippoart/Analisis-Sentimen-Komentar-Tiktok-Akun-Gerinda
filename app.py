@@ -57,19 +57,13 @@ positif_phrases = [
     'mana nih', 'makasih', 'ga salah pilih', 'mana yg bilang', 'di jaga ketikannya',
     'pak', 'aku dukung', 'kita dukung', 'percaya', 'aku percaya',
     'terimakasih', 'tetap dukung', 'saya yakin', 'harap pak', 'selamatkan alam',
-    'berharap', 'dukung bapak',
-
-    'selamatkan raja ampat', 'jaga lingkungan', 'lestarikan alam',
-    'tolong jaga hutan', 'selamatkan ekosistem', 'dukung lingkungan',
-    'dukung pelestarian', 'presiden peduli lingkungan', 'stop tambang ilegal',
-    'hentikan perusakan', 'cegah kerusakan', 'selamatkan hutan',
-    'peduli lingkungan', 'jaga raja ampat', 'selamatkan tambrauw',
-
-     'presiden kerja', 'bagus kerjanya', 'tanggapan bagus', 'tanggap cepat',
-    'peduli lingkungan', 'kinerja bagus', 'bantu lingkungan'
-    
-
-
+    'berharap', 'dukung bapak', 'selamatkan raja ampat', 'jaga lingkungan',
+    'lestarikan alam', 'tolong jaga hutan', 'selamatkan ekosistem',
+    'dukung lingkungan', 'dukung pelestarian', 'presiden peduli lingkungan',
+    'stop tambang ilegal', 'hentikan perusakan', 'cegah kerusakan',
+    'selamatkan hutan', 'peduli lingkungan', 'jaga raja ampat',
+    'selamatkan tambrauw', 'presiden kerja', 'bagus kerjanya',
+    'tanggapan bagus', 'tanggap cepat', 'kinerja bagus', 'bantu lingkungan'
 ]
 
 negatif_phrases = [
@@ -80,18 +74,16 @@ negatif_phrases = [
     'presiden gagal', 'bukan presiden gue', 'pilihan salah', 'ganti presiden',
     'berhenti', 'bukan presiden', 'udah salah', 'salah total', 'tolong stop',
     'jangan lanjutkan', 'hancurkan', 'kerusakan', 'dikhianati',
-    'rusak alam', 'janji palsu', 'sama aja bohong',
-
-    'merusak raja ampat', 'rusak raja ampat', 'kerusakan lingkungan',
-    'penghancur alam', 'pengkhianat lingkungan', 'tambang ilegal',
-    'kerusakan tambah parah', 'rusak hutan', 'penambangan liar',
-    'lingkungan rusak', 'tidak peduli raja ampat', 'ekosistem rusak',
-    'prabowo rusak alam', 'izin tambang sembarangan', 'jual raja ampat',
-    'penambangan brutal', 'hancurkan raja ampat', 'prabowo perusak alam',   'tidak pantas', 'tidak layak', 'parah banget', 'bencana alam', 'tidak tanggap','pengrusakan'
-
-    
+    'rusak alam', 'janji palsu', 'sama aja bohong', 'merusak raja ampat',
+    'rusak raja ampat', 'kerusakan lingkungan', 'penghancur alam',
+    'pengkhianat lingkungan', 'tambang ilegal', 'kerusakan tambah parah',
+    'rusak hutan', 'penambangan liar', 'lingkungan rusak',
+    'tidak peduli raja ampat', 'ekosistem rusak', 'prabowo rusak alam',
+    'izin tambang sembarangan', 'jual raja ampat', 'penambangan brutal',
+    'hancurkan raja ampat', 'prabowo perusak alam', 'tidak pantas',
+    'tidak layak', 'parah banget', 'bencana alam', 'tidak tanggap',
+    'pengrusakan'
 ]
-
 
 def label_sentimen(text):
     for phrase in positif_phrases:
@@ -107,6 +99,14 @@ def label_sentimen(text):
 # ======================= #
 st.sidebar.header("\U0001F50D Upload Dataset")
 uploaded_file = st.sidebar.file_uploader("Unggah file CSV komentar", type=["csv"])
+
+# ======================= #
+# Filter relevansi        #
+# ======================= #
+filter_keywords = [
+    'raja ampat', 'tambang', 'lingkungan', 'alam', 'ekosistem', 'rusak',
+    'tambrauw', 'prabowo', 'kerusakan', 'penambangan', 'lingkungan hidup'
+]
 
 # ======================= #
 # Hybrid Predict Function #
@@ -128,7 +128,7 @@ def hybrid_predict(comment, model, vectorizer):
 # Proses Klasifikasi      #
 # ======================= #
 if uploaded_file:
-        df_raw = pd.read_csv(uploaded_file)
+    df_raw = pd.read_csv(uploaded_file)
     df_raw['komentar'] = df_raw['komentar'].astype(str)
     df_raw['komentar_clean'] = df_raw['komentar'].apply(clean_text)
 
@@ -150,7 +150,6 @@ if uploaded_file:
     rf.fit(X_train, y_train)
     dt.fit(X_train, y_train)
 
-    # Prediksi komentar relevan tapi belum terklasifikasi
     df_unknown = df_relevan[df_relevan['label'] == 'unknown'].copy()
     X_unknown = vectorizer.transform(df_unknown['komentar_clean'])
     df_unknown['label_binary'] = rf.predict(X_unknown)
@@ -170,8 +169,6 @@ if uploaded_file:
         'total_terklasifikasi': len(df_final)
     })
 
- 
-
 # ======================= #
 # Tabs UI                 #
 # ======================= #
@@ -183,6 +180,7 @@ with tab1:
         df = st.session_state['df']
         total_all = st.session_state['total_dataset']
         total_relevan = st.session_state['total_relevan']
+        total_klasifikasi = st.session_state['total_terklasifikasi']
         total_baik = (df['label_binary'] == 1).sum()
         total_buruk = (df['label_binary'] == 0).sum()
 
@@ -194,12 +192,11 @@ with tab1:
         with col_top2:
             st.metric("Komentar Relevan Raja Ampat", total_relevan)
 
-       col1, col3 = st.columns(3)
-      
+        col1, col2, _ = st.columns(3)
         with col1:
-            st.metric("Baik ✅", f" ({total_baik/total_klasifikasi*100:.2f}%)")
+            st.metric("Baik ✅", f"{total_baik} ({total_baik/total_klasifikasi*100:.2f}%)")
         with col2:
-            st.metric("Buruk ❌", f" ({total_buruk/total_klasifikasi*100:.2f}%)")
+            st.metric("Buruk ❌", f"{total_buruk} ({total_buruk/total_klasifikasi*100:.2f}%)")
 
         st.plotly_chart(px.pie(names=["Baik", "Buruk"], values=[total_baik, total_buruk], title="Distribusi Sentimen Komentar"))
 
