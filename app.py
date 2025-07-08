@@ -64,6 +64,9 @@ positif_phrases = [
     'dukung pelestarian', 'presiden peduli lingkungan', 'stop tambang ilegal',
     'hentikan perusakan', 'cegah kerusakan', 'selamatkan hutan',
     'peduli lingkungan', 'jaga raja ampat', 'selamatkan tambrauw',
+
+     'presiden kerja', 'bagus kerjanya', 'tanggapan bagus', 'tanggap cepat',
+    'peduli lingkungan', 'kinerja bagus', 'bantu lingkungan'
     
 
 
@@ -84,7 +87,7 @@ negatif_phrases = [
     'kerusakan tambah parah', 'rusak hutan', 'penambangan liar',
     'lingkungan rusak', 'tidak peduli raja ampat', 'ekosistem rusak',
     'prabowo rusak alam', 'izin tambang sembarangan', 'jual raja ampat',
-    'penambangan brutal', 'hancurkan raja ampat', 'prabowo perusak alam'
+    'penambangan brutal', 'hancurkan raja ampat', 'prabowo perusak alam',   'tidak pantas', 'tidak layak', 'parah banget', 'bencana alam', 'tidak tanggap','pengrusakan'
 
     
 ]
@@ -97,7 +100,7 @@ def label_sentimen(text):
     for phrase in negatif_phrases:
         if phrase in text:
             return 'buruk'
-    return None
+    return 'unknown'
 
 # ======================= #
 # Sidebar Upload          #
@@ -125,22 +128,21 @@ def hybrid_predict(comment, model, vectorizer):
 # Proses Klasifikasi      #
 # ======================= #
 if uploaded_file:
-    df_raw = pd.read_csv(uploaded_file)
+        df_raw = pd.read_csv(uploaded_file)
     df_raw['komentar'] = df_raw['komentar'].astype(str)
     df_raw['komentar_clean'] = df_raw['komentar'].apply(clean_text)
 
-    filter_keywords = ['raja ampat', 'tambang', 'kerusakan', 'penambangan', 'nikel', 'hutan', 'lingkungan', 'alam', 'save raja', 'izin']
-
     df_raw['is_relevant'] = df_raw['komentar_clean'].apply(lambda x: any(k in x for k in filter_keywords))
     df_relevan = df_raw[df_raw['is_relevant'] == True].copy()
-
     df_relevan['label'] = df_relevan['komentar_clean'].apply(label_sentimen)
-    df = df_relevan[df_relevan['label'].isin(['baik', 'buruk'])].copy()
-    df['label_binary'] = df['label'].map({'baik': 1, 'buruk': 0})
+
+    df_labeled = df_relevan[df_relevan['label'].isin(['baik', 'buruk'])].copy()
+    df_labeled['label_binary'] = df_labeled['label'].map({'baik': 1, 'buruk': 0})
 
     vectorizer = TfidfVectorizer()
-    X = vectorizer.fit_transform(df['komentar_clean'])
-    y = df['label_binary']
+    X = vectorizer.fit_transform(df_labeled['komentar_clean'])
+    y = df_labeled['label_binary']
+
     X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y, test_size=0.2, random_state=42)
 
     rf = RandomForestClassifier(class_weight='balanced', random_state=42)
@@ -148,8 +150,16 @@ if uploaded_file:
     rf.fit(X_train, y_train)
     dt.fit(X_train, y_train)
 
+    # Prediksi komentar relevan tapi belum terklasifikasi
+    df_unknown = df_relevan[df_relevan['label'] == 'unknown'].copy()
+    X_unknown = vectorizer.transform(df_unknown['komentar_clean'])
+    df_unknown['label_binary'] = rf.predict(X_unknown)
+    df_unknown['label'] = df_unknown['label_binary'].map({1: 'baik', 0: 'buruk'})
+
+    df_final = pd.concat([df_labeled, df_unknown], ignore_index=True)
+
     st.session_state.update({
-        'df': df,
+        'df': df_final,
         'vectorizer': vectorizer,
         'X_test': X_test,
         'y_test': y_test,
@@ -157,8 +167,10 @@ if uploaded_file:
         'model_dt': dt,
         'total_dataset': len(df_raw),
         'total_relevan': len(df_relevan),
-        'total_terklasifikasi': len(df)
+        'total_terklasifikasi': len(df_final)
     })
+
+ 
 
 # ======================= #
 # Tabs UI                 #
