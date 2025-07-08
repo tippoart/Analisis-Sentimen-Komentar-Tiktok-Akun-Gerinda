@@ -179,12 +179,10 @@ tab1, tab2, tab3, tab4 = st.tabs(["\U0001F4C4 Dataset", "\U0001F4CA Evaluasi", "
 
 # Tab 1: Dataset
 with tab1:
-    st.subheader("📄 Ringkasan Dataset Komentar")
     if 'df' in st.session_state:
         df = st.session_state['df']
         total_all = st.session_state['total_dataset']
         total_relevan = st.session_state['total_relevan']
-        total_klasifikasi = st.session_state['total_terklasifikasi']
         total_baik = (df['label_binary'] == 1).sum()
         total_buruk = (df['label_binary'] == 0).sum()
 
@@ -194,15 +192,14 @@ with tab1:
         with col_top1:
             st.metric("Total Komentar Awal", total_all)
         with col_top2:
-            st.metric("Komentar Relevan (Raja Ampat)", total_relevan)
+            st.metric("Komentar Relevan Raja Ampat", total_relevan)
 
-        col1, col2, col3 = st.columns(3)
+       col1, col3 = st.columns(3)
+      
         with col1:
-            st.metric("Total Terklasifikasi", total_klasifikasi)
+            st.metric("Baik ✅", f" ({total_baik/total_klasifikasi*100:.2f}%)")
         with col2:
-            st.metric("Baik ✅", f"{total_baik} ({total_baik/total_klasifikasi*100:.2f}%)")
-        with col3:
-            st.metric("Buruk ❌", f"{total_buruk} ({total_buruk/total_klasifikasi*100:.2f}%)")
+            st.metric("Buruk ❌", f" ({total_buruk/total_klasifikasi*100:.2f}%)")
 
         st.plotly_chart(px.pie(names=["Baik", "Buruk"], values=[total_baik, total_buruk], title="Distribusi Sentimen Komentar"))
 
