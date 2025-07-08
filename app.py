@@ -59,17 +59,13 @@ positif_phrases = [
     'terimakasih', 'tetap dukung', 'saya yakin', 'harap pak', 'selamatkan alam',
     'berharap', 'dukung bapak',
 
-    # Tambahan dari isu Raja Ampat dan lingkungan
     'selamatkan raja ampat', 'jaga lingkungan', 'lestarikan alam',
     'tolong jaga hutan', 'selamatkan ekosistem', 'dukung lingkungan',
     'dukung pelestarian', 'presiden peduli lingkungan', 'stop tambang ilegal',
     'hentikan perusakan', 'cegah kerusakan', 'selamatkan hutan',
-    'peduli lingkungan', 'jaga raja ampat', 'selamatkan tambrauw'
+    'peduli lingkungan', 'jaga raja ampat', 'selamatkan tambrauw',
+    
 
-    'jaga lingkungan', 'selamatkan raja ampat', 'lestarikan alam', 'tolong jaga hutan',
-    'selamatkan ekosistem', 'dukung lingkungan', 'dukung pelestarian', 'presiden peduli lingkungan',
-    'stop tambang ilegal', 'hentikan perusakan', 'cegah kerusakan', 'selamatkan hutan',
-    'peduli lingkungan', 'jaga raja ampat', 'selamatkan tambrauw'
 
 ]
 
@@ -133,7 +129,8 @@ if uploaded_file:
     df_raw['komentar'] = df_raw['komentar'].astype(str)
     df_raw['komentar_clean'] = df_raw['komentar'].apply(clean_text)
 
-    filter_keywords = ['raja ampat', 'tambang', 'kerusakan alam', 'penambangan']
+    filter_keywords = ['raja ampat', 'tambang', 'kerusakan', 'penambangan', 'nikel', 'hutan', 'lingkungan', 'alam', 'save raja', 'izin']
+
     df_raw['is_relevant'] = df_raw['komentar_clean'].apply(lambda x: any(k in x for k in filter_keywords))
     df_relevan = df_raw[df_raw['is_relevant'] == True].copy()
 
