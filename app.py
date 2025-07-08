@@ -13,9 +13,6 @@ import seaborn as sns
 from wordcloud import WordCloud
 import plotly.express as px
 
-# ======================= #
-# Config & Background     #
-# ======================= #
 st.set_page_config(page_title="Analisis Kinerja Prabowo", layout="wide")
 
 def add_bg_from_local(image_file):
@@ -35,16 +32,10 @@ def add_bg_from_local(image_file):
 
 add_bg_from_local("image/Save-Raja-Ampat.jpg")
 
-# ======================= #
-# Judul Aplikasi          #
-# ======================= #
 st.markdown("""<h1 style='text-align: center; color: white;'>
     Analisis Sentimen Komentar TikTok terhadap Kinerja Presiden Prabowo<br> dalam Penanganan Tambang di Raja Ampat
 </h1>""", unsafe_allow_html=True)
 
-# ======================= #
-# Preprocessing           #
-# ======================= #
 def clean_text(text):
     text = text.lower()
     text = re.sub(r'[^a-z\s]', '', text)
@@ -76,15 +67,9 @@ def label_sentimen(text):
             return 'buruk'
     return None
 
-# ======================= #
-# Sidebar Input           #
-# ======================= #
 st.sidebar.header("\U0001F50D Upload Dataset")
 uploaded_file = st.sidebar.file_uploader("Unggah file CSV komentar", type=["csv"])
 
-# ======================= #
-# Proses Klasifikasi      #
-# ======================= #
 if uploaded_file:
     df_raw = pd.read_csv(uploaded_file)
     df_raw['komentar'] = df_raw['komentar'].astype(str)
@@ -105,7 +90,6 @@ if uploaded_file:
 
     rf = RandomForestClassifier(random_state=42)
     dt = DecisionTreeClassifier(random_state=42)
-
     rf.fit(X_train, y_train)
     dt.fit(X_train, y_train)
 
@@ -121,14 +105,12 @@ if uploaded_file:
         'total_terklasifikasi': len(df)
     })
 
-# ======================= #
-# Tampilan Tabs           #
-# ======================= #
-tab1, tab2, tab3, tab4 = st.tabs(["\U0001F4C4 Dataset", "\U0001F4CA Evaluasi", "\U0001F4AC Prediksi", "☁️ Visualisasi"])
+# Tabs
 
-# Tab 1
+tab1, tab2, tab3, tab4 = st.tabs(["\U0001F4C4 Dataset", "\U0001F4CA Evaluasi", "\U0001F4AC Prediksi", "\u2601\ufe0f Visualisasi"])
+
 with tab1:
-   
+    st.subheader("\U0001F4C4 Ringkasan Dataset Komentar")
     if 'df' in st.session_state:
         df = st.session_state['df']
         total_all = st.session_state['total_dataset']
@@ -136,18 +118,18 @@ with tab1:
         total_klasifikasi = st.session_state['total_terklasifikasi']
         total_baik = (df['label_binary'] == 1).sum()
         total_buruk = (df['label_binary'] == 0).sum()
-        
+
         st.dataframe(df[['komentar', 'komentar_clean', 'label']], use_container_width=True)
-        st.subheader("\U0001F4C4 Ringkasan Dataset Komentar")
-        st.metric("Total Komentar Awal", total_all)
-        st.metric("Komentar Relevan (Raja Ampat)", total_relevan)
 
-
-   
+        col_top1, col_top2 = st.columns(2)
+        with col_top1:
+            st.metric("Total Komentar Awal", total_all)
+        with col_top2:
+            st.metric("Komentar Relevan (Raja Ampat)", total_relevan)
 
         col1, col2, col3 = st.columns(3)
         with col1:
-            st.metric("Total Klasifikasi", total_klasifikasi)
+            st.metric("Total Terklasifikasi", total_klasifikasi)
         with col2:
             st.metric("Baik ✅", f"{total_baik} ({total_baik/total_klasifikasi*100:.2f}%)")
         with col3:
@@ -155,7 +137,6 @@ with tab1:
 
         st.plotly_chart(px.pie(names=["Baik", "Buruk"], values=[total_baik, total_buruk], title="Distribusi Sentimen Komentar"))
 
-# Tab 2
 with tab2:
     def show_evaluation(model, name):
         y_test = st.session_state['y_test']
@@ -183,7 +164,6 @@ with tab2:
         show_evaluation(st.session_state['model_rf'], "Random Forest")
         show_evaluation(st.session_state['model_dt'], "Decision Tree")
 
-# Tab 3
 with tab3:
     st.subheader("\U0001F4AC Prediksi Komentar Baru")
     user_input = st.text_area("Masukkan komentar TikTok...")
@@ -194,14 +174,17 @@ with tab3:
             pred = st.session_state['model_rf'].predict(vec)[0]
             prob = st.session_state['model_rf'].predict_proba(vec)[0][pred]
             label = "BAIK ✅" if pred else "BURUK ❌"
+
+            st.markdown("**Komentar Asli:**")
+            st.success(user_input)
+
             st.markdown(f"### Hasil: {label}")
             st.markdown(f"Confidence: `{prob:.2f}`")
         else:
             st.warning("Model belum tersedia. Upload & klasifikasikan dataset terlebih dahulu.")
 
-# Tab 4
 with tab4:
-    st.subheader("☁️ WordCloud & Bigram")
+    st.subheader("\u2601\ufe0f WordCloud & Bigram")
     if 'df' in st.session_state:
         df = st.session_state['df']
         baik = " ".join(df[df['label'] == 'baik']['komentar_clean'])
