@@ -48,14 +48,20 @@ positif_phrases = [
     'jangan salahkan presiden', 'gapernah nyesel', 'tetap semangat',
     'aku percaya bapak', 'terima kasih pak', 'kami mendukungmu',
     'presiden terbaik', 'keren banget', 'lanjutkan pak', 'aku bangga',
-    'mana nih', 'makasih', 'ga salah pilih', 'mana yg bilang','di jaga ketikannya'
+    'mana nih', 'makasih', 'ga salah pilih', 'mana yg bilang', 'di jaga ketikannya',
+    'pak', 'aku dukung', 'kita dukung', 'percaya', 'aku percaya',
+    'terimakasih', 'tetap dukung', 'saya yakin', 'harap pak', 'selamatkan alam',
+    'berharap', 'dukung bapak'
 ]
 negatif_phrases = [
     'buruk', 'jelek', 'gagal', 'bohong', 'parah', 'salah pilih',
     'salah presiden', 'kacau', 'tidak puas', 'mengecewakan',
     'salah besar', 'salah milih', 'hancur', 'nggak becus',
     'day 1 salah', 'prabowo manis di awal', 'bener2 nyesel', 'kecewa',
-    'presiden gagal', 'bukan presiden gue', 'pilihan salah', 'ganti presiden'
+    'presiden gagal', 'bukan presiden gue', 'pilihan salah', 'ganti presiden',
+    'berhenti', 'bukan presiden', 'udah salah', 'salah total', 'tolong stop',
+    'jangan lanjutkan', 'hancurkan', 'kerusakan', 'dikhianati',
+    'rusak alam', 'janji palsu', 'sama aja bohong'
 ]
 
 def label_sentimen(text):
