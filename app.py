@@ -57,8 +57,16 @@ positif_phrases = [
     'mana nih', 'makasih', 'ga salah pilih', 'mana yg bilang', 'di jaga ketikannya',
     'pak', 'aku dukung', 'kita dukung', 'percaya', 'aku percaya',
     'terimakasih', 'tetap dukung', 'saya yakin', 'harap pak', 'selamatkan alam',
-    'berharap', 'dukung bapak'
+    'berharap', 'dukung bapak',
+
+    # Tambahan dari isu Raja Ampat dan lingkungan
+    'selamatkan raja ampat', 'jaga lingkungan', 'lestarikan alam',
+    'tolong jaga hutan', 'selamatkan ekosistem', 'dukung lingkungan',
+    'dukung pelestarian', 'presiden peduli lingkungan', 'stop tambang ilegal',
+    'hentikan perusakan', 'cegah kerusakan', 'selamatkan hutan',
+    'peduli lingkungan', 'jaga raja ampat', 'selamatkan tambrauw'
 ]
+
 negatif_phrases = [
     'buruk', 'jelek', 'gagal', 'bohong', 'parah', 'salah pilih',
     'salah presiden', 'kacau', 'tidak puas', 'mengecewakan',
@@ -67,8 +75,17 @@ negatif_phrases = [
     'presiden gagal', 'bukan presiden gue', 'pilihan salah', 'ganti presiden',
     'berhenti', 'bukan presiden', 'udah salah', 'salah total', 'tolong stop',
     'jangan lanjutkan', 'hancurkan', 'kerusakan', 'dikhianati',
-    'rusak alam', 'janji palsu', 'sama aja bohong'
+    'rusak alam', 'janji palsu', 'sama aja bohong',
+
+    # Tambahan dari isu Raja Ampat dan tambang
+    'merusak raja ampat', 'rusak raja ampat', 'kerusakan lingkungan',
+    'penghancur alam', 'pengkhianat lingkungan', 'tambang ilegal',
+    'kerusakan tambah parah', 'rusak hutan', 'penambangan liar',
+    'lingkungan rusak', 'tidak peduli raja ampat', 'ekosistem rusak',
+    'prabowo rusak alam', 'izin tambang sembarangan', 'jual raja ampat',
+    'penambangan brutal', 'hancurkan raja ampat', 'prabowo perusak alam'
 ]
+
 
 def label_sentimen(text):
     for phrase in positif_phrases:
